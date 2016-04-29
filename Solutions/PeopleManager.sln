@@ -3,7 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.WPF", "PeopleManager.WPF\PeopleManager.WPF.csproj", "{0814A47E-601F-4B36-A2B2-D3F70750BC9B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A378FAFF-8C85-4F35-A25B-8BCD62D9CAF7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{29A26FDE-81B3-464B-A94B-334BE8B562B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Data", "..\Libraries\PeopleManager.Data\PeopleManager.Data.csproj", "{9CE72116-4F28-4D5E-9165-BF4440639395}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevelopmentHelpers", "DevelopmentHelpers", "{934C53F2-7706-4C20-9950-D5D25C0D6F67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.DatabaseCreator", "..\Applications\PeopleManager.DatabaseCreator\PeopleManager.DatabaseCreator.csproj", "{970DC0F4-5472-4949-A5DA-CAFA1E61C023}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebServices", "WebServices", "{474923E6-1FAD-454F-AF24-BFF82C5670C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.WPF", "..\Applications\PeopleManager.WPF\PeopleManager.WPF.csproj", "{0814A47E-601F-4B36-A2B2-D3F70750BC9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.WebService", "..\WebServices\PeopleManager.WebService\PeopleManager.WebService.csproj", "{B6A9A626-CCD6-4E19-A503-F30C0ACC4200}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.DataManipulation", "..\Libraries\PeopleManager.DataManipulation\PeopleManager.DataManipulation.csproj", "{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +27,35 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CE72116-4F28-4D5E-9165-BF4440639395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CE72116-4F28-4D5E-9165-BF4440639395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CE72116-4F28-4D5E-9165-BF4440639395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CE72116-4F28-4D5E-9165-BF4440639395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{970DC0F4-5472-4949-A5DA-CAFA1E61C023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{970DC0F4-5472-4949-A5DA-CAFA1E61C023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{970DC0F4-5472-4949-A5DA-CAFA1E61C023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{970DC0F4-5472-4949-A5DA-CAFA1E61C023}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0814A47E-601F-4B36-A2B2-D3F70750BC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0814A47E-601F-4B36-A2B2-D3F70750BC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0814A47E-601F-4B36-A2B2-D3F70750BC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0814A47E-601F-4B36-A2B2-D3F70750BC9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9CE72116-4F28-4D5E-9165-BF4440639395} = {29A26FDE-81B3-464B-A94B-334BE8B562B5}
+		{970DC0F4-5472-4949-A5DA-CAFA1E61C023} = {934C53F2-7706-4C20-9950-D5D25C0D6F67}
+		{0814A47E-601F-4B36-A2B2-D3F70750BC9B} = {A378FAFF-8C85-4F35-A25B-8BCD62D9CAF7}
+		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200} = {474923E6-1FAD-454F-AF24-BFF82C5670C3}
+		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F} = {29A26FDE-81B3-464B-A94B-334BE8B562B5}
 	EndGlobalSection
 EndGlobal
