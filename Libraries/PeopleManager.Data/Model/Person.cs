@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,13 +16,13 @@ namespace PeopleManager.Data.Model
         public Guid Id { get; set; }
 
         [Required]
-        public string FirstName { get; set; }
+        public virtual string FirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; }
+        public virtual string LastName { get; set; }
 
         [Required]
-        public int Age { get; set; }
+        public virtual int Age { get; set; }
 
         [Required]
         public virtual List<Address> Addresses { get; set; }

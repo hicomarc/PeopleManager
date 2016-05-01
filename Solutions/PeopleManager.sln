@@ -21,6 +21,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.WebService", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.DataManipulation", "..\Libraries\PeopleManager.DataManipulation\PeopleManager.DataManipulation.csproj", "{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.DataAccess", "..\Libraries\PeopleManager.DataAccess\PeopleManager.DataAccess.csproj", "{372E2E69-BA00-4B98-B157-5423247CDC59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleApplications", "ConsoleApplications", "{4E61F2BB-EB86-4059-A51C-0D6B715AF467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Server.ConsoleApplication", "..\Applications\PeopleManager.Server.ConsoleApplication\PeopleManager.Server.ConsoleApplication.csproj", "{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleManager.Server.WCFServer", "..\Libraries\PeopleManager.Server.WCFServer\PeopleManager.Server.WCFServer.csproj", "{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +55,18 @@ Global
 		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372E2E69-BA00-4B98-B157-5423247CDC59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372E2E69-BA00-4B98-B157-5423247CDC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372E2E69-BA00-4B98-B157-5423247CDC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372E2E69-BA00-4B98-B157-5423247CDC59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,5 +77,8 @@ Global
 		{0814A47E-601F-4B36-A2B2-D3F70750BC9B} = {A378FAFF-8C85-4F35-A25B-8BCD62D9CAF7}
 		{B6A9A626-CCD6-4E19-A503-F30C0ACC4200} = {474923E6-1FAD-454F-AF24-BFF82C5670C3}
 		{0EFBA240-D9B6-46CA-BD23-8ED2EB98CC4F} = {29A26FDE-81B3-464B-A94B-334BE8B562B5}
+		{372E2E69-BA00-4B98-B157-5423247CDC59} = {29A26FDE-81B3-464B-A94B-334BE8B562B5}
+		{B7A0B474-E77F-47FF-BB75-029AA7ED8FEA} = {4E61F2BB-EB86-4059-A51C-0D6B715AF467}
+		{EE1E6627-F8C6-4AB5-8418-565FBEFB11AE} = {29A26FDE-81B3-464B-A94B-334BE8B562B5}
 	EndGlobalSection
 EndGlobal

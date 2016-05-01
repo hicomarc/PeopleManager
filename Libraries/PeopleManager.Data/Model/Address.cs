@@ -15,21 +15,15 @@ namespace PeopleManager.Data.Model
         public Guid Id { get; set; }
 
         [Required]
-        public string Street { get; set; }
+        public virtual string Street { get; set; }
 
         [Required]
-        public int Zip { get; set; }
+        public virtual int Zip { get; set; }
 
         [Required]
-        public string City { get; set; }
+        public virtual string City { get; set; }
 
         [Required]
-        public string State { get; set; }
-
-        //[Required]
-        //public virtual Guid PersonID { get; set; }
-
-        //[Required]
-        //public virtual Person Person { get; set; }
+        public virtual string State { get; set; }
     }
 }

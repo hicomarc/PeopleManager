@@ -1,7 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PeopleManager.WPF.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WebApi2DataClientUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:7505/PeopleManager.WebService/api/</Value>
+    </Setting>
+    <Setting Name="WCFDataClientUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:8000/PeopleManager.WebService/</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
