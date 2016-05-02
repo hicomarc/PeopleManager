@@ -10,17 +10,29 @@ using RestSharp;
 
 namespace PeopleManager.DataAccess.DataClients
 {
+    /// <summary>
+    /// This abstract class has the responsibility of dealing with a rest service.
+    /// </summary>
     public abstract class RestClientBase : IDataClient
     {
+        private bool disposedValue = false;
         private readonly RestClient client;
+
+        /// <summary>
+        /// The name of the data client
+        /// </summary>
+        public abstract string Name { get; }
 
         protected RestClientBase(string url)
         {
             this.client = new RestClient(url);
         }
-        
-        public abstract string Name { get; }
 
+        /// <summary>
+        /// This method adds a new person via a REST service call.
+        /// </summary>
+        /// <param name="person">The person's data with address(es) to add</param>
+        /// <returns>The added person with updated ids of person and address(es)</returns>
         public Person AddPerson(Person person)
         {
             var request = new RestRequest("people", Method.POST);
@@ -31,10 +43,68 @@ namespace PeopleManager.DataAccess.DataClients
             {
                 this.HandleException(response.Content);
             }
+
             var personJObject = JObject.Parse(response.Content);
             var returnedPerson = personJObject.ToObject<Person>();
 
             return returnedPerson;
+        }
+
+        /// <summary>
+        /// This method reads all people's data including its addresses from a REST service.
+        /// </summary>
+        /// <returns>The list of people that are returned by the service.</returns>
+        public List<Person> GetPeopleWithAddresses()
+        {
+            var request = new RestRequest("people", Method.GET);
+            var response = client.Execute(request);
+            var personJArray = JArray.Parse(response.Content);
+            var people = personJArray.ToObject<List<Person>>();
+            foreach (var person in people)
+            {
+                person.Addresses = new List<Address>(person.Addresses);
+            }
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                this.HandleException(response.Content);
+            }
+
+            return people;
+        }
+
+        /// <summary>
+        /// This method updates a single person and adds, removes or updates the attached addresses accordingly via a REST service call.
+        /// </summary>
+        /// <param name="person">The person to update</param>
+        /// <returns>True if the operation succeeds.</returns>
+        public bool UpdatePerson(Person person)
+        {
+            var request = new RestRequest("people/" + person.Id, Method.PUT);
+            Person personToSend = GetPlainPersonObject(person);
+            request.AddJsonBody(personToSend);
+            var response = client.Execute(request);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                this.HandleException(response.Content);
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// This method removes a person with all its addresses via a REST service call.
+        /// </summary>
+        /// <param name="person">The person to remove</param>
+        public void RemovePerson(Person person)
+        {
+            var request = new RestRequest("people/" + person.Id, Method.DELETE);
+            var response = client.Execute(request);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                this.HandleException(response.Content);
+            }
         }
 
         private void HandleException(string content)
@@ -55,48 +125,23 @@ namespace PeopleManager.DataAccess.DataClients
             return result;
         }
 
-        public List<Person> GetPeople()
+
+        protected virtual void Dispose(bool disposing)
         {
-            var request = new RestRequest("people", Method.GET);
-            var response = client.Execute(request);
-            var personJArray = JArray.Parse(response.Content);
-            var people = personJArray.ToObject<List<Person>>();
-            foreach (var person in people)
+            if (!disposedValue)
             {
-                person.Addresses = new List<Address>(person.Addresses);
-            }
+                if (disposing)
+                {
+                    // Nothing to dispose
+                }
 
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.HandleException(response.Content);
-            }
-
-            return people;
-        }
-
-        public void RemovePerson(Person person)
-        {
-            var request = new RestRequest("people/" + person.Id, Method.DELETE);
-            var response = client.Execute(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.HandleException(response.Content);
+                disposedValue = true;
             }
         }
 
-        public bool UpdatePerson(Person person)
+        public void Dispose()
         {
-            var request = new RestRequest("people/" + person.Id, Method.PUT);
-            Person personToSend = GetPlainPersonObject(person);
-            request.AddJsonBody(personToSend);
-            var response = client.Execute(request);
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                this.HandleException(response.Content);
-            }
-
-            return true;
+            Dispose(true);
         }
     }
 }

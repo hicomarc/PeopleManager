@@ -12,16 +12,20 @@ using RestSharp;
 
 namespace PeopleManager.DataAccess.DataClients
 {
+    /// <summary>
+    /// This class implements a WebApi2 service data client for PeopleManager.
+    /// </summary>
     public class WebApi2DataClient : RestClientBase
     {
+        /// <summary>
+        /// This constructor initializes the instance with the url to the WebApi2 REST service
+        /// </summary>
+        /// <param name="url">The url to the WebApi2 service</param>
         public WebApi2DataClient(string url) : base(url) { }
 
-        public override string Name
-        {
-            get
-            {
-                return nameof(WebApi2DataClient);
-            }
-        }
+        /// <summary>
+        /// Returns the name of this data client.
+        /// </summary>
+        public override string Name { get { return nameof(WebApi2DataClient); } }
     }
 }

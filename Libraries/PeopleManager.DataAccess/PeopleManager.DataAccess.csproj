@@ -61,7 +61,6 @@
     <Compile Include="DataClients\RestClientBase.cs" />
     <Compile Include="DataClients\WCFDataClient.cs" />
     <Compile Include="Interfaces\IDataClient.cs" />
-    <Compile Include="Json\NewtonsoftJsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataClients\WebApi2DataClient.cs" />
   </ItemGroup>

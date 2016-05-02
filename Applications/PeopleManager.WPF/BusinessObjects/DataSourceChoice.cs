@@ -8,9 +8,13 @@ using PeopleManager.DataAccess.Interfaces;
 
 namespace PeopleManager.WPF.BusinessObjects
 {
-    public class DataSourceChoice : INotifyPropertyChanged
+    public class DataSourceChoice : INotifyPropertyChanged, IDisposable
     {
+        private bool disposedValue = false;
         private readonly IDataClient dataClient;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public IDataClient DataClient
         {
             get { return this.dataClient; }
@@ -32,11 +36,27 @@ namespace PeopleManager.WPF.BusinessObjects
             this.dataClient = dataClient;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private void OnPropertyChanged(string propertyName)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    this.dataClient?.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }

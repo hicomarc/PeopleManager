@@ -11,7 +11,7 @@ using PeopleManager.Data.Model;
 
 namespace PeopleManager.WPF.BusinessObjects
 {
-    public class PersonUI : Person, INotifyPropertyChanged, IDisposable, INotifyDataErrorInfo
+    public class PersonUI : Person, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
     {
         private readonly Dictionary<string, bool> errors = new Dictionary<string, bool>();
         private ObservableCollection<Address> addresses;
@@ -90,6 +90,10 @@ namespace PeopleManager.WPF.BusinessObjects
             }
         }
 
+        public bool IsDirty { get; private set; }
+
+        public bool DisplayRemoveAddressButton { get { return this.AddressesUI.Count > 1; } }
+
         public bool HasErrors
         {
             get
@@ -98,10 +102,6 @@ namespace PeopleManager.WPF.BusinessObjects
                 return errorsDetected;
             }
         }
-
-        public bool DisplayRemoveAddressButton { get { return this.AddressesUI.Count > 1; } }
-
-        public bool IsDirty { get; private set; }
 
         public PersonUI(Person person)
         {
@@ -118,6 +118,12 @@ namespace PeopleManager.WPF.BusinessObjects
             }
 
             this.IsDirty = false;
+            this.OnPropertyChanged(nameof(this.IsDirty));
+        }
+
+        private void SetDirty()
+        {
+            this.IsDirty = true;
             this.OnPropertyChanged(nameof(this.IsDirty));
         }
 
@@ -155,11 +161,6 @@ namespace PeopleManager.WPF.BusinessObjects
             }
         }
 
-        private void SetDirty()
-        {
-            this.IsDirty = true;
-            this.OnPropertyChanged(nameof(this.IsDirty));
-        }
         public IEnumerable GetErrors(string propertyName)
         {
             var result = new List<ValidationResult>();
@@ -187,25 +188,6 @@ namespace PeopleManager.WPF.BusinessObjects
             return result;
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    foreach (var addressUI in this.addresses.OfType<AddressUI>())
-                    {
-                        addressUI.PropertyChanged -= AddressUI_PropertyChanged;
-                    }
-
-                    this.addresses.Clear();
-                    this.addresses = null;
-                }
-
-                disposedValue = true;
-            }
-        }
-
         public AddressUI AddAddress()
         {
             var addressUI = new AddressUI(new Address());
@@ -223,6 +205,25 @@ namespace PeopleManager.WPF.BusinessObjects
             this.AddressesUI.Remove(addressUI);
             this.SetDirty();
             this.OnPropertyChanged(nameof(this.DisplayRemoveAddressButton));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (var addressUI in this.addresses.OfType<AddressUI>())
+                    {
+                        addressUI.PropertyChanged -= AddressUI_PropertyChanged;
+                    }
+
+                    this.addresses.Clear();
+                    this.addresses = null;
+                }
+
+                disposedValue = true;
+            }
         }
 
         public void Dispose()

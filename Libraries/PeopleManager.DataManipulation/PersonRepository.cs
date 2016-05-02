@@ -11,27 +11,27 @@ using PeopleManager.DataManipulation.Interfaces;
 
 namespace PeopleManager.DataManipulation
 {
-    public class PersonRepository : IItemRepository<Person>, IDisposable
+    /// <summary>
+    /// This repository exposes CRUD operations for people
+    /// </summary>
+    public class PersonRepository : IItemRepository<Person>
     {
-        private readonly PeopleDataContext peopleDataContext;
-
-        public PersonRepository()
+        private readonly IPeopleDataContext peopleDataContext;
+        
+        /// <summary>
+        /// The constructor initializes a new instance of this class.
+        /// <param name="peopleDataContext">The instance of the data context to use</param>
+        /// </summary>
+        public PersonRepository(IPeopleDataContext peopleDataContext)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["peopleManagerEntities"].ConnectionString;
-            this.peopleDataContext = new PeopleDataContext(connectionString);
-        }
-        public IEnumerable<Person> GetAll()
-        {
-            var result = this.peopleDataContext.People.Include(nameof(Person.Addresses));
-            return result;
+            this.peopleDataContext = peopleDataContext;
         }
 
-        public Person Get(Guid id)
-        {
-            var result = this.peopleDataContext.People.Include(nameof(Person.Addresses)).FirstOrDefault(p => p.Id == id);
-            return result;
-        }
-
+        /// <summary>
+        /// This method adds a person with its addresses to the data source.
+        /// </summary>
+        /// <param name="item">The person to add</param>
+        /// <returns>The added person with updated properties</returns>
         public Person Add(Person item)
         {
             var result = this.peopleDataContext.People.Add(item);
@@ -39,13 +39,32 @@ namespace PeopleManager.DataManipulation
             return result;
         }
 
-        public void Remove(Person item)
+        /// <summary>
+        /// This method retrieves all people from the data source.
+        /// </summary>
+        /// <returns>An enumeration of people</returns>
+        public IEnumerable<Person> GetAll()
         {
-            this.peopleDataContext.Addresses.RemoveRange(item.Addresses);
-            this.peopleDataContext.People.Remove(item);
-            this.peopleDataContext.SaveChanges();
+            var result = this.peopleDataContext.People.Include(nameof(Person.Addresses));
+            return result;
         }
 
+        /// <summary>
+        /// This method searches the data source for a specific person.
+        /// </summary>
+        /// <param name="id">The id of the person to search</param>
+        /// <returns>The matching person</returns>
+        public Person Get(Guid id)
+        {
+            var result = this.peopleDataContext.People.Include(nameof(Person.Addresses)).FirstOrDefault(p => p.Id == id);
+            return result;
+        }
+
+        /// <summary>
+        /// This method updates a person with all its addresses in the data source
+        /// </summary>
+        /// <param name="item">The person to update</param>
+        /// <returns>True, if the operation succeeds</returns>
         public bool Update(Person item)
         {
             var person = this.peopleDataContext.People.Find(item.Id);
@@ -93,6 +112,17 @@ namespace PeopleManager.DataManipulation
             return true;
         }
 
+        /// <summary>
+        /// This method removes a person from the data source
+        /// </summary>
+        /// <param name="item">The person to remove</param>
+        public void Remove(Person item)
+        {
+            this.peopleDataContext.Addresses.RemoveRange(item.Addresses);
+            this.peopleDataContext.People.Remove(item);
+            this.peopleDataContext.SaveChanges();
+        }
+
         private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -108,6 +138,9 @@ namespace PeopleManager.DataManipulation
             }
         }
 
+        /// <summary>
+        /// This method disposes the resources of this instance.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

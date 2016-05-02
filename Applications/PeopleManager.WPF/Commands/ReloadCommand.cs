@@ -40,7 +40,7 @@ namespace PeopleManager.WPF.Commands
         {
             try
             {
-                var people = this.mainWindowViewModel.CurrentDataClient.GetPeople();
+                var people = this.mainWindowViewModel.CurrentDataClient.GetPeopleWithAddresses();
                 this.mainWindowViewModel.ResetPeopleList();
                 foreach (var person in people)
                 {

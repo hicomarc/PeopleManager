@@ -10,11 +10,16 @@ using PeopleManager.Data.Model;
 
 namespace PeopleManager.WPF.BusinessObjects
 {
-    public class AddressUI : Address, INotifyPropertyChanged, INotifyDataErrorInfo
+    /// <summary>
+    /// This class represents an extended class Address for ui purposes.
+    /// </summary>
+    public class AddressUI : Address, INotifyPropertyChanged, INotifyDataErrorInfo, IDisposable
     {
         private readonly Dictionary<string, bool> errors = new Dictionary<string, bool>();
+        private bool disposedValue = false;
 
-        public bool IsDirty { get; private set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public override string City
         {
@@ -76,6 +81,8 @@ namespace PeopleManager.WPF.BusinessObjects
             }
         }
 
+        public bool IsDirty { get; private set; }
+
         public bool HasErrors
         {
             get
@@ -96,8 +103,11 @@ namespace PeopleManager.WPF.BusinessObjects
             this.OnPropertyChanged(nameof(this.IsDirty));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        private void SetDirty()
+        {
+            this.IsDirty = true;
+            this.OnPropertyChanged(nameof(this.IsDirty));
+        }
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -122,12 +132,6 @@ namespace PeopleManager.WPF.BusinessObjects
                     this.ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
                 }
             }
-        }
-
-        private void SetDirty()
-        {
-            this.IsDirty = true;
-            this.OnPropertyChanged(nameof(this.IsDirty));
         }
 
         public IEnumerable GetErrors(string propertyName)
@@ -155,6 +159,25 @@ namespace PeopleManager.WPF.BusinessObjects
 
             result = result.Where(p => !p.IsValid).ToList();
             return result;
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // Nothing to dispose
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
