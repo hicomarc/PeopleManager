@@ -25,7 +25,7 @@ namespace PeopleManager.WPF.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:7505/PeopleManager.WebService/api/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:7505/api/")]
         public string WebApi2DataClientUrl {
             get {
                 return ((string)(this["WebApi2DataClientUrl"]));
@@ -34,7 +34,7 @@ namespace PeopleManager.WPF.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8000/PeopleManager.WebService/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8000/PeopleManagerService/")]
         public string WCFDataClientUrl {
             get {
                 return ((string)(this["WCFDataClientUrl"]));

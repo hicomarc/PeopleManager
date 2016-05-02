@@ -10,8 +10,15 @@ using PeopleManager.Data.Model;
 
 namespace PeopleManager.DatabaseCreator
 {
+    /// <summary>
+    /// This class is here to create the database and fill it with some test data
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// The main entry point of this assembly
+        /// </summary>
+        /// <param name="args">Command line arguments</param>
         static void Main(string[] args)
         {
             try
@@ -92,7 +99,7 @@ namespace PeopleManager.DatabaseCreator
                         {
                             FirstName = "Andrea",
                             LastName = "Fertl",
-                            Age = 45,
+                            Age = 50,
                             Addresses = new List<Address> {
                                 new Address
                                 {
