@@ -1,0 +1,190 @@
+﻿<Window x:Class="PeopleManager.WPF.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PeopleManager.WPF"
+        mc:Ignorable="d"
+        xmlns:bo="clr-namespace:PeopleManager.WPF.BusinessObjects"
+        xmlns:c="clr-namespace:PeopleManager.WPF.Converters"
+        xmlns:m="clr-namespace:PeopleManager.Data.Model;assembly=PeopleManager.Data"
+        xmlns:vm="clr-namespace:PeopleManager.WPF.ViewModels"
+        Title="PeopleManager" Height="350" Width="700">
+    <Window.Resources>
+        <c:DirtyFlagToTextConverter x:Key="dirtyFlagToTextConverter" />
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,2,20,2" />
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="true">
+                            <Border Background="Red" DockPanel.Dock="right" Margin="5,0,0,0" Width="10" Height="10" CornerRadius="5" ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent.ErrorContent}">
+                                <TextBlock Text="!" VerticalAlignment="center" HorizontalAlignment="center" FontWeight="Bold" Foreground="white"/>
+                            </Border>
+                            <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center" >
+                                <Border BorderBrush="red" BorderThickness="1" />
+                            </AdornedElementPlaceholder>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:MainWindowViewModel x:Name="mwvm" />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ItemsControl ItemsSource="{Binding DataSourceChoices}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="bo:DataSourceChoice">
+                        <RadioButton IsChecked="{Binding IsSelected, Mode=TwoWay}">
+                            <TextBlock Text="{Binding DataClient.Name}" />
+                        </RadioButton>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Grid.Column="1" Command="{Binding Reload}">
+                <TextBlock Text="Reload" />
+            </Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ListView Grid.Row="0" ItemsSource="{Binding People}" SelectedItem="{Binding SelectedPerson}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header=" " Width="16" DisplayMemberBinding="{Binding IsDirty, Converter={StaticResource dirtyFlagToTextConverter}}" />
+                            <GridViewColumn Header="Name" Width="140" DisplayMemberBinding="{Binding DisplayName}" />
+                            <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Command="{Binding AddPerson}">
+                        <TextBlock Text="Add Person" />
+                    </Button>
+                    <Button Grid.Column="1" Command="{Binding RemovePerson}">
+                        <TextBlock Text="Remove Person" />
+                    </Button>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="0" Width="5" VerticalAlignment="Stretch" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Id" />
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Firstname" />
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Lastname" />
+                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Age" />
+
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SelectedPerson.Id}" />
+                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding SelectedPerson.FirstName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding SelectedPerson.LastName, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding SelectedPerson.Age, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                        <ItemsControl Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" ItemsSource="{Binding SelectedPerson.AddressesUI}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="m:Address">
+                                    <Grid Margin="5" Background="AliceBlue">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Id" />
+                                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Street" />
+                                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Zip" />
+                                        <TextBlock Grid.Column="0" Grid.Row="3" Text="City" />
+                                        <TextBlock Grid.Column="0" Grid.Row="4" Text="State" />
+
+                                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Id}" />
+                                        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Street, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                                        <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Zip, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                                        <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding City, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+                                        <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding State, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
+
+                                        <Button Grid.Column="1" Grid.Row="5" IsEnabled="{Binding SelectedPerson.DisplayRemoveAddressButton, ElementName=mwvm}" Command="{Binding ElementName=mwvm, Path=RemoveAddress}" CommandParameter="{Binding}">
+                                            <TextBlock Text="Remove Address" />
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </ScrollViewer>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Command="{Binding AddAddress}">
+                        <TextBlock Text="Add address" />
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Button Grid.Row="2" Command="{Binding Save}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Save (" />
+                <TextBlock Text="{Binding PeopleToAddCount}" />
+                <TextBlock Text=" to add, " />
+                <TextBlock Text="{Binding PeopleToUpdateCount}" />
+                <TextBlock Text=" to update, " />
+                <TextBlock Text="{Binding PeopleToRemoveCount}" />
+                <TextBlock Text=" to remove)" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>
