@@ -9,12 +9,19 @@ using PeopleManager.WPF.ViewModels;
 
 namespace PeopleManager.WPF.Commands
 {
+    /// <summary>
+    /// This command adds an address to a person
+    /// </summary>
     public class AddAddressCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private readonly MainWindowViewModel mainWindowViewModel;
 
+        /// <summary>
+        /// The constructor initializes an instance of this class.
+        /// </summary>
+        /// <param name="mainWindowViewModel">The viewmodel that holds necessary data to act upon</param>
         public AddAddressCommand(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;

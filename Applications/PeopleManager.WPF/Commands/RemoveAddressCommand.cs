@@ -11,12 +11,19 @@ using PeopleManager.WPF.ViewModels;
 
 namespace PeopleManager.WPF.Commands
 {
+    /// <summary>
+    /// This command removes an address from a person.
+    /// </summary>
     public class RemoveAddressCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private readonly MainWindowViewModel mainWindowViewModel;
 
+        /// <summary>
+        /// The constructor initializes an instance of this class.
+        /// </summary>
+        /// <param name="mainWindowViewModel">The viewmodel that holds necessary data to act upon</param>
         public RemoveAddressCommand(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;

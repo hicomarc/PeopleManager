@@ -10,6 +10,9 @@ using PeopleManager.WPF.BusinessObjects;
 
 namespace PeopleManager.WPF.Converters
 {
+    /// <summary>
+    /// This converter converts true to a star (*) and false to an empty string.
+    /// </summary>
     public class DirtyFlagToTextConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

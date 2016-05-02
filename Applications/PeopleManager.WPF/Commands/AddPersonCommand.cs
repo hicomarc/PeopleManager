@@ -11,12 +11,19 @@ using PeopleManager.WPF.ViewModels;
 
 namespace PeopleManager.WPF.Commands
 {
+    /// <summary>
+    /// This command adds a person to the list of people.
+    /// </summary>
     public class AddPersonCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private readonly MainWindowViewModel mainWindowViewModel;
 
+        /// <summary>
+        /// The constructor initializes an instance of this class.
+        /// </summary>
+        /// <param name="mainWindowViewModel">The viewmodel that holds necessary data to act upon</param>
         public AddPersonCommand(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;

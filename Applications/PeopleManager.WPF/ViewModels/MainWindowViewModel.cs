@@ -18,6 +18,8 @@ namespace PeopleManager.WPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        private bool suppressDataSourceChoicePropertyChangedEvent = false;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<PersonUI> People { get; private set; } = new ObservableCollection<PersonUI>();
@@ -25,12 +27,6 @@ namespace PeopleManager.WPF.ViewModels
         public ObservableCollection<PersonUI> PeopleToAddWhenSaving { get; private set; } = new ObservableCollection<PersonUI>();
 
         public ObservableCollection<PersonUI> PeopleToRemoveWhenSaving { get; private set; } = new ObservableCollection<PersonUI>();
-
-        public List<PersonUI> PeopleToUpdateWhenSaving => this.People.Except(this.PeopleToAddWhenSaving).Except(this.PeopleToRemoveWhenSaving).Where(p => p.IsDirty).ToList();
-
-        public int PeopleToAddCount => this.PeopleToAddWhenSaving.Count;
-        public int PeopleToRemoveCount => this.PeopleToRemoveWhenSaving.Count;
-        public int PeopleToUpdateCount => this.PeopleToUpdateWhenSaving.Count;
 
         private PersonUI selectedPerson;
         public PersonUI SelectedPerson
@@ -61,18 +57,6 @@ namespace PeopleManager.WPF.ViewModels
         private List<DataSourceChoice> dataSourceChoices;
         public List<DataSourceChoice> DataSourceChoices { get { return this.dataSourceChoices; } }
 
-        public ICommand Reload => new ReloadCommand(this);
-
-        public ICommand AddAddress => new AddAddressCommand(this);
-
-        public ICommand RemoveAddress => new RemoveAddressCommand(this);
-
-        public ICommand AddPerson => new AddPersonCommand(this);
-
-        public ICommand RemovePerson => new RemovePersonCommand(this);
-
-        public ICommand Save => new SaveCommand(this);
-
         public MainWindowViewModel()
         {
             this.selectedPerson = null;
@@ -91,6 +75,42 @@ namespace PeopleManager.WPF.ViewModels
                 dataSourceChoice.PropertyChanged += DataSourceChoice_PropertyChanged;
             }
         }
+
+        public MainWindowViewModel(List<IDataClient> dataClients)
+        {
+            this.selectedPerson = null;
+            this.People.CollectionChanged += People_CollectionChanged;
+            this.People.CollectionChanged += SomePeople_CollectionChanged;
+            this.PeopleToAddWhenSaving.CollectionChanged += SomePeople_CollectionChanged;
+            this.PeopleToRemoveWhenSaving.CollectionChanged += SomePeople_CollectionChanged;
+
+            this.dataSourceChoices = new List<DataSourceChoice>(dataClients.Select(p =>
+            {
+                var dataSourceChoice = new DataSourceChoice(p);
+                dataSourceChoice.PropertyChanged += DataSourceChoice_PropertyChanged;
+                return dataSourceChoice;
+            }));
+        }
+
+        public List<PersonUI> PeopleToUpdateWhenSaving => this.People.Except(this.PeopleToAddWhenSaving).Except(this.PeopleToRemoveWhenSaving).Where(p => p.IsDirty).ToList();
+
+        public int PeopleToAddCount => this.PeopleToAddWhenSaving.Count;
+
+        public int PeopleToRemoveCount => this.PeopleToRemoveWhenSaving.Count;
+
+        public int PeopleToUpdateCount => this.PeopleToUpdateWhenSaving.Count;
+
+        public ICommand Reload => new ReloadCommand(this);
+
+        public ICommand AddAddress => new AddAddressCommand(this);
+
+        public ICommand RemoveAddress => new RemoveAddressCommand(this);
+
+        public ICommand AddPerson => new AddPersonCommand(this);
+
+        public ICommand RemovePerson => new RemovePersonCommand(this);
+
+        public ICommand Save => new SaveCommand(this);
 
         public void ResetPeopleList()
         {
@@ -130,6 +150,10 @@ namespace PeopleManager.WPF.ViewModels
             {
                 this.RaiseSomePeopleCollectionChanged();
             }
+            else if (e.PropertyName == nameof(PersonUI.DisplayRemoveAddressButton))
+            {
+                this.OnPropertyChanged(nameof(this.SelectedPerson));
+            }
         }
 
         private void SomePeople_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -144,7 +168,6 @@ namespace PeopleManager.WPF.ViewModels
             this.OnPropertyChanged(nameof(this.PeopleToUpdateCount));
         }
 
-        private bool suppressDataSourceChoicePropertyChangedEvent = false;
         private void DataSourceChoice_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(DataSourceChoice.IsSelected) && !suppressDataSourceChoicePropertyChangedEvent)

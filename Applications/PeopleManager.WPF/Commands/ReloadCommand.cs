@@ -6,17 +6,23 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PeopleManager.WPF.BusinessObjects;
-using PeopleManager.WPF.Extensions;
 using PeopleManager.WPF.ViewModels;
 
 namespace PeopleManager.WPF.Commands
 {
+    /// <summary>
+    /// This command reloads the list of people.
+    /// </summary>
     public class ReloadCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
         private readonly MainWindowViewModel mainWindowViewModel;
 
+        /// <summary>
+        /// The constructor initializes an instance of this class.
+        /// </summary>
+        /// <param name="mainWindowViewModel">The viewmodel that holds necessary data to act upon</param>
         public ReloadCommand(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
